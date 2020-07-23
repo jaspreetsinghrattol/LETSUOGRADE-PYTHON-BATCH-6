@@ -1,0 +1,260 @@
+Q1. describe in brief about list and its deafult function ?
+
+ANS:-
+
+Lists:-
+We’ve seen that what we do to a variable like number_1 above inside a function doesn’t affect its global value. But number_1 is an integer, which is a pretty basic data type. What happens if we try the same experiment with a different data type, like a list? Below, we’ll create a function called duplicate_last() that will duplicate the final entry in any list we pass it as an argument.
+
+initial_list = [1, 2, 3]
+
+def duplicate_last(a_list):
+    last_element = a_list[-1]
+    a_list.append(last_element)
+    return a_list
+
+new_list = duplicate_last(a_list = initial_list)
+print(new_list)
+print(initial_list)
+[1, 2, 3, 3]
+[1, 2, 3, 3]
+As we can see, here the global value of initial_list was updated, even though its value was only changed inside the function!
+
+Q2.explain dictionary & its default functions ?
+ANS:-
+
+Dictionaries
+Now, let’s write a function that takes a dictionary as an argument to see if a global dictionary variable will be modified when it’s manipulated inside a function as well.
+
+To make this a bit more realistic, we’ll be using data from the AppleStore.csv data set that’s used in our Python Fundamentals course (the data is available for download here).
+
+In the snippet below, we’re starting with a dictionary that contains counts for the number of apps with each age rating in the dataset (so there are 4,433 apps rated “4+”, 987 apps rated “9+”, etc.). Let’s imagine we want to calculate a percentage for each age rating, so we can get a picture of which age ratings are the most common among apps in the App Store.
+
+To do this, we’ll write a function called make_percentages() that will take a dictionary as an argument and convert the counts to percentages. We’ll need to start a count at zero and then iterate over each value in the dictionary, adding them to the count so we get the total number of ratings. Then we’ll to iterate over the dictionary again and do some math to each value to calculate the percentage.
+
+content_ratings = {'4+': 4433, '9+': 987, '12+': 1155, '17+': 622}
+
+def make_percentages(a_dictionary):
+    total = 0
+    for key in a_dictionary:
+        count = a_dictionary[key]
+        total += count
+
+    for key in a_dictionary:
+        a_dictionary[key] = (a_dictionary[key] / total) * 100
+
+    return a_dictionary
+Before we look at the output, let’s quickly review what’s happening above. After assigning our dictionary of app age ratings to the variable content_ratings, we create a new function called make_percentages() that takes a single argument: a_dictionary.
+
+To figure what percentage of apps fall into each age rating, we’ll need to know the total number of apps, so we first set a new variable called total to 0 and then loop through each key in a_dictionary, adding it to total.
+
+Once that’s finished, all we need to do is loop through a_dictionary again, dividing each entry by the total and then multiplying the result by 100. This will give us a dictionary with percentages.
+
+But what happens when we use our global content_ratings as the argument for this new function?
+
+c_ratings_percentages = make_percentages(content_ratings)
+print(c_ratings_percentages)
+print(content_ratings)
+{'4+': 61.595109073224954, '9+': 13.714047519799916, '12+': 16.04835348061692, '17+': 8.642489926358204}
+{'4+': 61.595109073224954, '9+': 13.714047519799916, '12+': 16.04835348061692, '17+': 8.642489926358204}
+Just as we saw with lists, our global content_ratings variable has been changed, even though it was only modified inside of the make_percentages() function we created.
+
+So what’s actually happening here? We’ve bumped up against the difference between mutable and immutable data types.
+
+Q3. Eplain sets and its deafult functions ?
+ANS:-
+Set Operations
+The sets in python are typically used for mathematical operations like union, intersection, difference and complement etc. We can create a set, access it’s elements and carry out these mathematical operations as shown below.
+
+Creating a set
+A set is created by using the set() function or placing all the elements within a pair of curly braces.
+
+ 
+Days=set(["Mon","Tue","Wed","Thu","Fri","Sat","Sun"])
+Months={"Jan","Feb","Mar"}
+Dates={21,22,17}
+print(Days)
+print(Months)
+print(Dates)
+ 
+When the above code is executed, it produces the following result. Please note how the order of the elements has changed in the result.
+
+ 
+set(['Wed', 'Sun', 'Fri', 'Tue', 'Mon', 'Thu', 'Sat'])
+set(['Jan', 'Mar', 'Feb'])
+set([17, 21, 22])
+ 
+Accessing Values in a Set
+We cannot access individual values in a set. We can only access all the elements together as shown above. But we can also get a list of individual elements by looping through the set.
+
+ 
+Days=set(["Mon","Tue","Wed","Thu","Fri","Sat","Sun"])
+ 
+for d in Days:
+	print(d)
+When the above code is executed, it produces the following result.
+
+Wed
+Sun
+Fri
+Tue
+Mon
+Thu
+Sat
+Adding Items to a Set
+We can add elements to a set by using add() method. Again as discussed there is no specific index attached to the newly added element.
+
+ 
+Days=set(["Mon","Tue","Wed","Thu","Fri","Sat"])
+ 
+Days.add("Sun")
+print(Days)
+When the above code is executed, it produces the following result.
+
+set(['Wed', 'Sun', 'Fri', 'Tue', 'Mon', 'Thu', 'Sat'])
+Removing Item from a Set
+We can remove elements from a set by using discard() method. Again as discussed there is no specific index attached to the newly added element.
+
+ 
+Days=set(["Mon","Tue","Wed","Thu","Fri","Sat"])
+ 
+Days.discard("Sun")
+print(Days)
+When the above code is executed, it produces the following result.
+
+set(['Wed', 'Fri', 'Tue', 'Mon', 'Thu', 'Sat'])
+Union of Sets
+The union operation on two sets produces a new set containing all the distinct elements from both the sets. In the below example the element “Wed” is present in both the sets.
+
+ 
+DaysA = set(["Mon","Tue","Wed"])
+DaysB = set(["Wed","Thu","Fri","Sat","Sun"])
+AllDays = DaysA|DaysB
+print(AllDays)
+When the above code is executed, it produces the following result. Please note the result has only one “wed”.
+
+set(['Wed', 'Fri', 'Tue', 'Mon', 'Thu', 'Sat'])
+Intersection of Sets
+The intersection operation on two sets produces a new set containing only the common elements from both the sets. In the below example the element “Wed” is present in both the sets.
+
+ 
+DaysA = set(["Mon","Tue","Wed"])
+DaysB = set(["Wed","Thu","Fri","Sat","Sun"])
+AllDays = DaysA & DaysB
+print(AllDays)
+When the above code is executed, it produces the following result. Please note the result has only one “wed”.
+
+set(['Wed'])
+ 
+Difference of Sets
+The difference operation on two sets produces a new set containing only the elements from the first set and none from the second set. In the below example the element “Wed” is present in both the sets so it will not be found in the result set.
+
+ 
+DaysA = set(["Mon","Tue","Wed"])
+DaysB = set(["Wed","Thu","Fri","Sat","Sun"])
+AllDays = DaysA - DaysB
+print(AllDays)
+When the above code is executed, it produces the following result. Please note the result has only one “wed”.
+
+set(['Mon', 'Tue'])
+Compare Sets
+We can check if a given set is a subset or superset of another set. The result is True or False depending on the elements present in the sets.
+
+
+DaysA = set(["Mon","Tue","Wed"])
+DaysB = set(["Mon","Tue","Wed","Thu","Fri","Sat","Sun"])
+SubsetRes = DaysA <= DaysB
+SupersetRes = DaysB >= DaysA
+print(SubsetRes)
+print(SupersetRes)
+When the above code is executed, it produces the following result.
+
+True
+True
+
+Q4. Eplain tuple and explore methods ?
+ANS- 
+Tuple:-
+-A tuple is a collection which is ordered and unchangeable. In Python tuples are written with round brackets.
+-Access Tuple Items. Negative indexing means beginning from the end, -1 refers to the last item, -2 refers to the second...
+-Change Tuple Values. Once a tuple is created, you cannot change its values. Tuples are unchangeable, or immutable as it...
+-Loop Through a Tuple. You can loop through the tuple items by using a for loop. You will learn more about for loops in...
+-Check if Item Exists.
+-Tuple Length.
+-Join Two Tuples.
+Example
+Create a Tuple:
+
+thistuple = ("apple", "banana", "cherry")
+print(thistuple)
+
+Tuple Methods
+Python has two built-in methods that you can use on tuples.
+
+Method	Description
+count()	Returns the number of times a specified value occurs in a tuple
+index()	Searches the tuple for a specified value and returns the position of where it was found
+
+Q5. What is a Python String and String Function in Python?
+ANS:-
+Python string is an ordered collection of characters which is used to represent and store the text-based information. Strings are stored as individual characters in a contiguous memory location. It can be accessed from both directions: forward and backward. Characters are nothing but symbols. Strings are immutable Data Types in Python, which means that once a string is created, they cannot be changed. In this module, we will learn all about strings in Python so as to get started with strings.
+
+Creating a String in Python
+In Python, strings are created using either single quotes or double quotes. We can also use triple quotes, but usually triple quotes are used to create docstrings or multi-line strings.
+
+#creating a string with single quotes
+String1 = ‘Intellipaat’
+print (String1)#creating a string with double quotes
+String2 = “Python tutorial”
+Print (Strings2)
+After creating strings, they can be displayed on the screen using the print () method as shown in the above example. The output of the above example will be as follows:
+
+Intellipaat
+Python Tutorial
+
+Accessing Python String Characters
+In Python, the characters of string can be individually accessed using a method called indexing. Characters can be accessed from both directions: forward and backward. Forward indexing starts form 0, 1, 2…. Whereas, backward indexing starts form −1, −2, −3…, where −1 is the last element in a string, −2 is the second last, and so on. We can only use the integer number type for indexing; otherwise, the TypeError will be raised.
+Example:
+
+String1 = ‘intellipaat’
+print (String1)
+print (String1[0])
+print (String1[1])
+print (String1[-1])
+
+
+Output:
+Intellipaat
+i
+n
+t
+Updating or Deleting a String in Python
+As discussed above, strings in Python are immutable and thus updating or deleting an individual character in a string is not allowed, which means that changing a particular character in a string is not supported in Python. Although, the whole string can be updated and deleted. The whole string is deleted using a built-in ‘del’ keyword.
+Example:
+
+#Python code to update an entire string
+String1 = ‘Intellipaat Python Tutorial’
+print (“original string: “)
+print (String1)String1 = ‘Welcome to Intellipaat’
+print (“Updated String: “)
+print (String1)
+
+
+Output:
+Original String:
+Intellipaat Python Tutorial
+Updated String:
+Welcome to Intellipaat
+Example:
+
+#Python code to delete an entire string
+String1 = ‘Intellipaat Python tutorial’
+print (String1)
+del String1
+print (String1)
+
+
+Output:
+Intellipaat Python tutorial
+Traceback (most recent call last):
+File “”, line 1, in
+NameError: name ‘String1’ is not defined
